@@ -17,9 +17,13 @@ export class ProductsService {
     return this.repository.save(product);
   }
 
-  findAll(): Promise<Product[]> {
+  async findAll() {
     return this.repository.find({
-      relations: ['rawMaterials'],
+      relations: {
+        productRawMaterials: {
+          rawMaterial: true,
+        },
+      },
     });
   }
 
