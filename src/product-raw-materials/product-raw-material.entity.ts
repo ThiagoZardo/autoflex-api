@@ -6,8 +6,8 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import { Product } from 'src/products/product.entity';
-import { RawMaterial } from 'src/raw-materials/raw-material.entity';
+import { Product } from '../products/product.entity';
+import { RawMaterial } from '../raw-materials/raw-material.entity';
 
 @Entity('product_raw_materials')
 export class ProductRawMaterial {
