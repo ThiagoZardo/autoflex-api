@@ -30,7 +30,7 @@ export class ProductsService {
   findOne(id: number): Promise<Product | null> {
     return this.repository.findOne({
       where: { id },
-      relations: ['rawMaterials'],
+      relations: ['productRawMaterials'],
     });
   }
 
