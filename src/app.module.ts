@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
 import { RawMaterialsModule } from './raw-materials/raw-materials.module';
 import { ProductRawMaterialsModule } from './product-raw-materials/product-raw-materials.module';
+import { ManufacturingPlanModule } from './manufacturing-plan/manufacturing-plan.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProductRawMaterialsModule } from './product-raw-materials/product-raw-m
     ProductsModule,
     RawMaterialsModule,
     ProductRawMaterialsModule,
+    ManufacturingPlanModule,
   ],
 })
 export class AppModule {}
