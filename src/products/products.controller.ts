@@ -30,16 +30,19 @@ export class ProductsController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Find a product by ID' })
   findOne(@Param('id') id: number) {
     return this.service.findOne(Number(id));
   }
 
   @Put(':id')
+  @ApiOperation({ summary: 'Update a product' })
   update(@Param('id') id: number, @Body() dto: UpdateProductDto) {
     return this.service.update(Number(id), dto);
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Remove a product' })
   remove(@Param('id') id: number) {
     return this.service.remove(Number(id));
   }
