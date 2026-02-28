@@ -1,98 +1,207 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Autoflex API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST desenvolvida em **NestJS** para gerenciamento de produtos, matérias-primas e planejamento de fabricação.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📌 Sobre o Projeto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A aplicação permite:
 
-## Project setup
+- ✅ Cadastro de produtos
+- ✅ Cadastro de matérias-primas
+- ✅ Associação de matérias-primas a produtos
+- ✅ Consulta de fabricação possível (`manufacturing-plan`) com base no estoque disponível
+- ✅ Estrutura modular e testável
+- ✅ Documentação automática com Swagger
 
-```bash
-$ npm install
+O projeto foi desenvolvido seguindo boas práticas de arquitetura em NestJS, separação de responsabilidades e testes unitários.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- Node.js
+- NestJS
+- TypeORM
+- PostgreSQL (ou outro banco configurado)
+- Jest (testes unitários)
+- Swagger (documentação)
+- ESLint
+- Docker (opcional)
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+src/
+├── products/
+│   ├── dto/
+│   ├── entities/
+│   ├── products.controller.ts
+│   ├── products.service.ts
+│   └── *.spec.ts
+│
+├── raw-materials/
+├── product-raw-materials/
+├── manufacturing-plan/
+│
+├── app.module.ts
+└── main.ts
 ```
 
-## Compile and run the project
+Cada módulo contém:
+
+- Controller (exposição dos endpoints)
+- Service (regra de negócio)
+- Entity (modelo de dados)
+- DTOs (validação e contratos)
+- Testes unitários
+
+---
+
+## ⚙️ Como Executar o Projeto
+
+### 1️⃣ Clonar repositório
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone <url-do-repositorio>
+cd autoflex-api
 ```
 
-## Run tests
+---
+
+### 2️⃣ Instalar dependências
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 3️⃣ Configurar variáveis de ambiente
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Crie um arquivo `.env` na raiz do projeto:
+
+```
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=autoflex
+```
+
+---
+
+### 4️⃣ Rodar aplicação
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+A aplicação estará disponível em:
 
-## Resources
+```
+http://localhost:3000
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📘 Documentação Swagger
 
-## Support
+Após iniciar o projeto, acesse:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+http://localhost:3000/docs
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🧪 Executar Testes
 
-## License
+### Rodar testes unitários
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+npm run test
+```
+
+### Rodar cobertura de testes
+
+```bash
+npm run test:cov
+```
+
+---
+
+## 🔗 Endpoints da API
+
+---
+
+### 📦 Products
+
+| Método | Rota          | Descrição             |
+| ------ | ------------- | --------------------- |
+| POST   | /products     | Criar produto         |
+| GET    | /products     | Listar produtos       |
+| GET    | /products/:id | Buscar produto por ID |
+| PATCH  | /products/:id | Atualizar produto     |
+| DELETE | /products/:id | Remover produto       |
+
+---
+
+### 🧱 Raw Materials
+
+| Método | Rota               | Descrição              |
+| ------ | ------------------ | ---------------------- |
+| POST   | /raw-materials     | Criar matéria-prima    |
+| GET    | /raw-materials     | Listar matérias-primas |
+| PATCH  | /raw-materials/:id | Atualizar estoque      |
+
+---
+
+### 🔗 Product Raw Materials
+
+| Método | Rota                   | Descrição                        |
+| ------ | ---------------------- | -------------------------------- |
+| POST   | /product-raw-materials | Associar matéria-prima a produto |
+| GET    | /product-raw-materials | Listar associações               |
+
+---
+
+### 🏭 Manufacturing Plan
+
+| Método | Rota                | Descrição                                   |
+| ------ | ------------------- | ------------------------------------------- |
+| GET    | /manufacturing-plan | Consulta de fabricação possível por produto |
+
+---
+
+## 🏗️ Arquitetura
+
+A API segue o padrão modular do NestJS:
+
+- Separação por domínio
+- Services responsáveis pela regra de negócio
+- Controllers responsáveis apenas por entrada/saída
+- Repositórios via TypeORM
+- DTOs para validação
+- Testes unitários com dependências mockadas
+
+---
+
+## 🔥 Melhorias Futuras
+
+- Autenticação JWT
+- Controle de permissões
+- Testes E2E
+- Docker Compose com banco integrado
+- Deploy em ambiente cloud (AWS, Azure ou GCP)
+
+---
+
+## 👨‍💻 Autor
+
+Projeto desenvolvido como desafio técnico aplicando boas práticas de engenharia de software e arquitetura limpa.
+
+---
