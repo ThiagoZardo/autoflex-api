@@ -13,9 +13,12 @@ A aplicação permite:
 - ✅ Associação de matérias-primas a produtos
 - ✅ Consulta de fabricação possível (`manufacturing-plan`) com base no estoque disponível
 - ✅ Estrutura modular e testável
+- ✅ Migrations versionadas com TypeORM
+- ✅ Seed automático de dados iniciais
 - ✅ Documentação automática com Swagger
+- ✅ Ambiente containerizado com Docker
 
-O projeto foi desenvolvido seguindo boas práticas de arquitetura em NestJS, separação de responsabilidades e testes unitários.
+O projeto foi desenvolvido seguindo boas práticas de arquitetura em NestJS, separação de responsabilidades e versionamento de banco de dados.
 
 ---
 
@@ -24,11 +27,11 @@ O projeto foi desenvolvido seguindo boas práticas de arquitetura em NestJS, sep
 - Node.js
 - NestJS
 - TypeORM
-- PostgreSQL (ou outro banco configurado)
+- MySQL
 - Jest (testes unitários)
-- Swagger (documentação)
+- Swagger
 - ESLint
-- Docker (opcional)
+- Docker & Docker Compose
 
 ---
 
@@ -37,18 +40,19 @@ O projeto foi desenvolvido seguindo boas práticas de arquitetura em NestJS, sep
 ```
 src/
 ├── products/
-│   ├── dto/
-│   ├── entities/
-│   ├── products.controller.ts
-│   ├── products.service.ts
-│   └── *.spec.ts
-│
 ├── raw-materials/
 ├── product-raw-materials/
 ├── manufacturing-plan/
 │
+├── database/
+│   ├── migrations/
+│   └── seeds/
+│
 ├── app.module.ts
 └── main.ts
+
+docker/
+└── entrypoint.sh
 ```
 
 Cada módulo contém:
@@ -61,46 +65,45 @@ Cada módulo contém:
 
 ---
 
-## ⚙️ Como Executar o Projeto
+# ⚙️ Como Executar o Projeto
 
-### 1️⃣ Clonar repositório
+Você pode rodar o projeto de duas formas:
 
-```bash
-git clone <url-do-repositorio>
-cd autoflex-api
-```
+1. 🔥 Usando Docker (recomendado)
+2. 🧪 Rodando localmente
 
 ---
 
-### 2️⃣ Instalar dependências
+# 🐳 Executando com Docker (Recomendado)
+
+## 1️⃣ Subir containers
 
 ```bash
-npm install
+docker compose up --build
 ```
+
+Isso irá:
+
+- Subir o MySQL
+- Aguardar o banco estar pronto
+- Rodar automaticamente as migrations
+- Executar o seed inicial
+- Subir a API
 
 ---
 
-### 3️⃣ Configurar variáveis de ambiente
+## 🔁 Rodar novamente do zero (resetando banco)
 
-Crie um arquivo `.env` na raiz do projeto:
+```bash
+docker compose down -v
+docker compose up --build
+```
 
-```
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
-DATABASE_NAME=autoflex
-```
+O `-v` remove o volume do banco.
 
 ---
 
-### 4️⃣ Rodar aplicação
-
-```bash
-npm run start:dev
-```
-
-A aplicação estará disponível em:
+## 🌍 API disponível em:
 
 ```
 http://localhost:3000
@@ -108,7 +111,83 @@ http://localhost:3000
 
 ---
 
-## 📘 Documentação Swagger
+# 📦 Migrations
+
+As migrations são responsáveis por versionar e criar a estrutura do banco de dados.
+
+## Gerar uma migration
+
+```bash
+npm run migration:generate
+```
+
+## Rodar migrations manualmente (ambiente local)
+
+```bash
+npm run migration:run
+```
+
+No ambiente Docker, as migrations são executadas automaticamente na inicialização da aplicação.
+
+---
+
+# 🌱 Seed
+
+O projeto possui um script de seed responsável por popular dados iniciais.
+
+## Rodar manualmente (ambiente local)
+
+```bash
+npm run seed
+```
+
+No ambiente Docker, o seed é executado automaticamente após as migrations.
+
+O seed é idempotente (não duplica dados).
+
+---
+
+# 🧪 Executando Localmente (Sem Docker)
+
+## 1️⃣ Instalar dependências
+
+```bash
+npm install
+```
+
+---
+
+## 2️⃣ Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=root
+DB_NAME=autoflex
+```
+
+---
+
+## 3️⃣ Rodar migrations
+
+```bash
+npm run migration:run
+```
+
+---
+
+## 4️⃣ Rodar aplicação
+
+```bash
+npm run start:dev
+```
+
+---
+
+# 📘 Documentação Swagger
 
 Após iniciar o projeto, acesse:
 
@@ -118,27 +197,11 @@ http://localhost:3000/docs
 
 ---
 
-## 🧪 Executar Testes
-
-### Rodar testes unitários
-
-```bash
-npm run test
-```
-
-### Rodar cobertura de testes
-
-```bash
-npm run test:cov
-```
+# 🔗 Endpoints da API
 
 ---
 
-## 🔗 Endpoints da API
-
----
-
-### 📦 Products
+## 📦 Products
 
 | Método | Rota          | Descrição             |
 | ------ | ------------- | --------------------- |
@@ -150,7 +213,7 @@ npm run test:cov
 
 ---
 
-### 🧱 Raw Materials
+## 🧱 Raw Materials
 
 | Método | Rota               | Descrição              |
 | ------ | ------------------ | ---------------------- |
@@ -160,7 +223,7 @@ npm run test:cov
 
 ---
 
-### 🔗 Product Raw Materials
+## 🔗 Product Raw Materials
 
 | Método | Rota                   | Descrição                        |
 | ------ | ---------------------- | -------------------------------- |
@@ -169,7 +232,7 @@ npm run test:cov
 
 ---
 
-### 🏭 Manufacturing Plan
+## 🏭 Manufacturing Plan
 
 | Método | Rota                | Descrição                                   |
 | ------ | ------------------- | ------------------------------------------- |
@@ -177,7 +240,7 @@ npm run test:cov
 
 ---
 
-## 🏗️ Arquitetura
+# 🏗️ Arquitetura
 
 A API segue o padrão modular do NestJS:
 
@@ -185,23 +248,24 @@ A API segue o padrão modular do NestJS:
 - Services responsáveis pela regra de negócio
 - Controllers responsáveis apenas por entrada/saída
 - Repositórios via TypeORM
-- DTOs para validação
+- Migrations versionadas
+- Seed inicial automatizado
 - Testes unitários com dependências mockadas
+- Docker multi-stage build para ambiente de produção
 
 ---
 
-## 🔥 Melhorias Futuras
+# 🔥 Melhorias Futuras
 
 - Autenticação JWT
 - Controle de permissões
 - Testes E2E
-- Docker Compose com banco integrado
+- CI/CD Pipeline
 - Deploy em ambiente cloud (AWS, Azure ou GCP)
+- Kubernetes
 
 ---
 
 ## 👨‍💻 Autor
 
-Projeto desenvolvido como desafio técnico aplicando boas práticas de engenharia de software e arquitetura limpa.
-
----
+Projeto desenvolvido como desafio técnico aplicando boas práticas de engenharia de software, arquitetura limpa e containerização profissional.

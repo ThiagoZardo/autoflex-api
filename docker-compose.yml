@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8
@@ -11,10 +9,24 @@ services:
       MYSQL_USER: autoflex
       MYSQL_PASSWORD: autoflex
     ports:
-      - "3306:3306"
+      - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
 
+  autoflex-api:
+    build: .
+    container_name: autoflex-api
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: autoflex
+      DB_PASSWORD: autoflex
+      DB_NAME: autoflex
+    depends_on:
+      - mysql
+
 volumes:
   mysql-data:
-  
